@@ -9,6 +9,7 @@ import java.util.Set;
 public class UserRequestDTO {
     private String firstname;
     private String lastname;
+    private String gender;
     private String email;
     private String password;
     private String phone;

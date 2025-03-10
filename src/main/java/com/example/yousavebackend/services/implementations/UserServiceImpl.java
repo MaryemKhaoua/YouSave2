@@ -43,6 +43,7 @@ public class UserServiceImpl implements IUserService {
         User user = new User();
         user.setFirstname(registerRequestDTO.getFirstname());
         user.setLastname(registerRequestDTO.getLastname());
+        user.setGender(registerRequestDTO.getGender());
         user.setEmail(registerRequestDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequestDTO.getPassword()));
         user.setPhone(registerRequestDTO.getPhone());
@@ -54,15 +55,15 @@ public class UserServiceImpl implements IUserService {
 
         BloodType bloodType = bloodTypeRepository.findById(registerRequestDTO.getBloodTypeId())
                 .orElseThrow(() -> new Exception("BloodType not found with id " + registerRequestDTO.getBloodTypeId()));
+
+        bloodType.incrementUserCount();
+        bloodTypeRepository.save(bloodType);
+
         user.setBloodType(bloodType);
 
-        Set<Role> roles = new HashSet<>();
-        for (String roleName : registerRequestDTO.getRoles()) {
-            Role role = roleRepository.findByName(roleName)
-                    .orElseThrow(() -> new Exception("Role not found with name " + roleName));
-            roles.add(role);
-        }
-        user.setRoles(roles);
+        Role donorRole = roleRepository.findByName("DONOR")
+                .orElseThrow(() -> new Exception("Role 'DONOR' not found in database"));
+        user.setRoles(Set.of(donorRole));
 
         User savedUser = userRepository.save(user);
         return mapToDTO(savedUser);
@@ -70,6 +71,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Role getRoleByName(String role_name) {
+
         return roleRepository.findByName(role_name).orElse(null);
     }
 
@@ -78,6 +80,10 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public long countAllUsers() {
+        return userRepository.count();
     }
 
     @Override
@@ -94,6 +100,7 @@ public class UserServiceImpl implements IUserService {
         User user = new User();
         user.setFirstname(userRequestDTO.getFirstname());
         user.setLastname(userRequestDTO.getLastname());
+        user.setGender(userRequestDTO.getGender());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         user.setPhone(userRequestDTO.getPhone());
@@ -126,6 +133,7 @@ public class UserServiceImpl implements IUserService {
 
         user.setFirstname(userRequestDTO.getFirstname());
         user.setLastname(userRequestDTO.getLastname());
+        user.setGender(userRequestDTO.getGender());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         user.setPhone(userRequestDTO.getPhone());
@@ -160,11 +168,17 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     private UserResponseDTO mapToDTO(User user) {
         UserResponseDTO userResponseDTO = new UserResponseDTO();
         userResponseDTO.setId(user.getId());
         userResponseDTO.setFirstname(user.getFirstname());
         userResponseDTO.setLastname(user.getLastname());
+        userResponseDTO.setGender(user.getGender());
         userResponseDTO.setEmail(user.getEmail());
         userResponseDTO.setPhone(user.getPhone());
         userResponseDTO.setDateOfBirth(user.getDateOfBirth());

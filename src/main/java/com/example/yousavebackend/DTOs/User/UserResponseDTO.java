@@ -9,6 +9,7 @@ public class UserResponseDTO {
     private Long id;
     private String firstname;
     private String lastname;
+    private String gender;
     private String email;
     private String phone;
     private LocalDate dateOfBirth;

@@ -1,22 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1739435069556-17
-      author: Youcode
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - dropForeignKeyConstraint:
-            baseTableName: users_roles
-            constraintName: fk_userol_on_role
-  - changeSet:
-      id: 1739435069556-18
-      author: Youcode
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - dropForeignKeyConstraint:
-            baseTableName: users_roles
-            constraintName: fk_userol_on_user
-  - changeSet:
-      id: 1739435069556-1
+      id: 1741616793899-1
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -33,9 +17,19 @@ databaseChangeLog:
               - column:
                   name: type
                   type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: donation_count
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_count
+                  type: INT
             tableName: blood_types
   - changeSet:
-      id: 1739435069556-2
+      id: 1741616793899-2
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -54,7 +48,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: cities
   - changeSet:
-      id: 1739435069556-3
+      id: 1741616793899-3
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -85,7 +79,7 @@ databaseChangeLog:
                   type: INT
             tableName: eligibility_criteria
   - changeSet:
-      id: 1739435069556-4
+      id: 1741616793899-4
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -101,7 +95,26 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: eligibility_criteria_medical_exclusions
   - changeSet:
-      id: 1739435069556-5
+      id: 1741616793899-5
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_role
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+            tableName: role
+  - changeSet:
+      id: 1741616793899-6
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -123,35 +136,69 @@ databaseChangeLog:
                   type: BIGINT
             tableName: user_roles
   - changeSet:
-      id: 1739435069556-6
+      id: 1741616793899-7
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
-        - addColumn:
+        - createTable:
             columns:
               - column:
-                  name: blood_type_id
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_users
+                  name: id
                   type: BIGINT
+              - column:
+                  name: firstname
+                  type: VARCHAR(255)
+              - column:
+                  name: lastname
+                  type: VARCHAR(255)
+              - column:
+                  name: gender
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: phone
+                  type: VARCHAR(255)
+              - column:
+                  name: date_of_birth
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: eligible
+                  type: BOOLEAN
               - column:
                   name: city_id
                   type: BIGINT
               - column:
-                  name: eligibility_criteria_id
+                  name: blood_type_id
                   type: BIGINT
               - column:
-                  name: eligible
-                  type: BOOLEAN
+                  name: eligibility_criteria_id
+                  type: BIGINT
             tableName: users
   - changeSet:
-      id: 1739435069556-10
+      id: 1741616793899-8
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
-        - addNotNullConstraint:
-            columnName: eligible
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_users_email
             tableName: users
   - changeSet:
-      id: 1739435069556-11
+      id: 1741616793899-9
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -162,7 +209,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: blood_types
   - changeSet:
-      id: 1739435069556-12
+      id: 1741616793899-10
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -173,7 +220,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: cities
   - changeSet:
-      id: 1739435069556-13
+      id: 1741616793899-11
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -184,7 +231,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: eligibility_criteria
   - changeSet:
-      id: 1739435069556-14
+      id: 1741616793899-12
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -195,7 +242,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: eligibility_criteria
   - changeSet:
-      id: 1739435069556-15
+      id: 1741616793899-13
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -206,7 +253,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: role
   - changeSet:
-      id: 1739435069556-16
+      id: 1741616793899-14
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -216,12 +263,4 @@ databaseChangeLog:
             constraintName: fk_userol_on_user
             referencedColumnNames: id
             referencedTableName: users
-  - changeSet:
-      id: 1739435069556-19
-      author: Youcode
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - dropTable:
-            cascadeConstraints: true
-            tableName: users_roles
 

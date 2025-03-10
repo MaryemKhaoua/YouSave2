@@ -37,6 +37,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/cities/**").permitAll()
+                        .requestMatchers(("api/blood-types/**")).permitAll()
+//                        .requestMatchers("/api/users/count").permitAll() // Allow access to this endpoint
+//                        .requestMatchers("/api/dashboard/stats").permitAll() // Allow access to this endpoint
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
                         .requestMatchers("/donor/**").hasRole("DONOR")

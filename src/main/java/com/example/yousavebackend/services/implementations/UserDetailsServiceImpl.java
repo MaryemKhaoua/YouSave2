@@ -32,4 +32,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         logger.info("User Authenticated Successfully..!!!" + user.toString());
         return new CustomUserDetails(user);
     }
+
+
 }

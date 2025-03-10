@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/blood-types")
@@ -54,4 +55,10 @@ public class BloodTypeController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/user-counts")
+    public Map<String, Integer> getUserCountsByBloodType() {
+        return bloodTypeService.getUserCountsByBloodType();
+    }
+    
 }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class BloodTypeResponseDTO {
     private Long id;
     private String type;
+    private int donationCount;
 }

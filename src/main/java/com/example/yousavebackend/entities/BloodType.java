@@ -15,7 +15,17 @@ public class BloodType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+    private int donationCount;
+    private int userCount;
 
     @OneToMany(mappedBy = "bloodType")
     private List<User> users;
+
+    public void incrementDonationCount(int amount) {
+        this.donationCount += amount;
+    }
+
+    public void incrementUserCount() {
+        this.userCount++;
+    }
 }

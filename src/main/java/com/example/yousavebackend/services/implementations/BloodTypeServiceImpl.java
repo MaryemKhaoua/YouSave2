@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,7 @@ public class BloodTypeServiceImpl implements IBloodTypeService {
     public BloodTypeResponseDTO saveBloodType(BloodTypeRequestDTO bloodTypeRequestDTO) {
         BloodType bloodType = new BloodType();
         bloodType.setType(bloodTypeRequestDTO.getType());
+        bloodType.setDonationCount(0);
         BloodType savedBloodType = bloodTypeRepository.save(bloodType);
         return mapToDTO(savedBloodType);
     }
@@ -58,10 +61,22 @@ public class BloodTypeServiceImpl implements IBloodTypeService {
         }
     }
 
+    public Map<String, Integer> getUserCountsByBloodType() {
+        List<BloodType> bloodTypes = bloodTypeRepository.findAll();
+        Map<String, Integer> userCounts = new HashMap<>();
+
+        for (BloodType bloodType : bloodTypes) {
+            userCounts.put(bloodType.getType(), bloodType.getUsers().size());
+        }
+
+        return userCounts;
+    }
+
     private BloodTypeResponseDTO mapToDTO(BloodType bloodType) {
         BloodTypeResponseDTO bloodTypeResponseDTO = new BloodTypeResponseDTO();
         bloodTypeResponseDTO.setId(bloodType.getId());
         bloodTypeResponseDTO.setType(bloodType.getType());
+        bloodTypeResponseDTO.setDonationCount(bloodType.getDonationCount());
         return bloodTypeResponseDTO;
     }
 }
